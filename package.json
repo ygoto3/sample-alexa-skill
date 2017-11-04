@@ -3,5 +3,22 @@
   "version": "0.0.1",
   "main": "lambda/custom/app.js",
   "repository": {},
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "lambda/custom/**/*.js",
+      "!lambda/custom/index.js",
+      "!**/node_modules/**",
+      "!lambda/custom/scripts/**",
+      "!lambda/custom/coverage/**"
+    ]
+  }
 }

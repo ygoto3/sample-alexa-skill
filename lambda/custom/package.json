@@ -15,7 +15,6 @@
   "devDependencies": {
     "codecov": "^3.0.0",
     "express": "^4.16.2",
-    "jest": "^21.2.1",
     "supertest": "^3.0.0"
   },
   "jest": {

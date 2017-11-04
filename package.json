@@ -1,0 +1,7 @@
+{
+  "name": "sample-alexa-skill",
+  "version": "0.0.1",
+  "main": "lambda/custom/app.js",
+  "repository": {},
+  "license": "MIT"
+}

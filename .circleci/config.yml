@@ -1,0 +1,68 @@
+# Javascript Node CircleCI 2.0 configuration file #
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # Use the same Node version as that of AWS Lambda's
+      - image: circleci/node:6.10
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "lambda/custom/package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: Install dependencies
+          working_directory: lambda/custom
+          command: yarn install
+
+      # - save_cache:
+          paths:
+            - lambda/custom/node_modules
+          key: v1-dependencies-{{ checksum "lambda/custom/package.json" }}
+
+      # run tests!
+      - run:
+          name: Run tests
+          working_directory: lambda/custom
+          command: |
+            yarn test
+
+      # codecov
+      - run:
+          name: Report code coverage
+          working_directory: lambda/custom
+          command: $(yarn bin)/codecov
+
+      # Deploy
+      - deploy:
+          name: Deploy Function Code
+          command: |
+            if ["${CIRCLE_BRANCH}" == "master"]; then
+              sudo apt-get -y -qq install python3-pip gettext
+              sudo pip3 install awscli
+              aws configure set default.region us-east-1
+
+              sudo npm i ask-cli -g
+              mkdir -p ~/.ask
+              echo ${ASK_CLI_CONFIG} | base64 -d > ~/.ask/cli_config
+
+              make deploy 
+            else
+              echo "Nothing to do for deployment"
+            fi

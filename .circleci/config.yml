@@ -51,9 +51,9 @@ jobs:
 
       # Deploy
       - deploy:
-          name: Deploy Function Code
+          name: Deploy Skill
           command: |
-            if ["${CIRCLE_BRANCH}" == "master"]; then
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
               sudo apt-get -y -qq install python3-pip gettext
               sudo pip3 install awscli
               aws configure set default.region us-east-1

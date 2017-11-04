@@ -5,7 +5,7 @@ deploy: interaction_model
 
 .PHONY: interaction_model
 interaction_model:
-	node ./lambda/scripts/gen-interaction-model > models/en-US.json
+	node ./lambda/custom/scripts/gen-interaction-model > models/en-US.json
 
 .PHONY: ask_config
 ask_config:

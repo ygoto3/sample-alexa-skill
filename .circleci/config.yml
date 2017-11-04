@@ -28,6 +28,10 @@ jobs:
 
       - run:
           name: Install dependencies
+          command: yarn install
+
+      - run:
+          name: Install dependencies for Lambda function
           working_directory: lambda/custom
           command: yarn install
 
@@ -39,14 +43,12 @@ jobs:
       # run tests!
       - run:
           name: Run tests
-          working_directory: lambda/custom
           command: |
             yarn test
 
       # codecov
       - run:
           name: Report code coverage
-          working_directory: lambda/custom
           command: $(yarn bin)/codecov
 
       # Deploy

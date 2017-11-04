@@ -43,11 +43,11 @@ $ ask init
 
 You need to add the following environment variables to your project on to your CircleCI
 
-- `ALEXA_SKILL_ID`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `ASK_CLI_CONFIG`
-- `CODECOV_TOKEN`
+- `ALEXA_SKILL_ID` if you have an existing skill
+- `CODECOV_TOKEN` if your repository is private
 
 ### ASK_CLI_CONFIG
 

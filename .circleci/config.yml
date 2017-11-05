@@ -63,6 +63,8 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               sudo apt-get -y -qq install python3-pip gettext
               sudo pip3 install awscli
+              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
               aws configure set default.region us-east-1
 
               sudo npm i ask-cli -g

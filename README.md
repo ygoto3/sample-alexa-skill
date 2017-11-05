@@ -47,6 +47,7 @@ You need to add the following environment variables to your project on to your C
 - `AWS_SECRET_ACCESS_KEY`
 - `ASK_CLI_CONFIG`
 - `ALEXA_SKILL_ID` if you have an existing skill
+- `AWS_LAMBDA_ARN` if you have an existing lambda endpoint connected to the skill
 - `CODECOV_TOKEN` if your repository is private
 
 ### ASK_CLI_CONFIG

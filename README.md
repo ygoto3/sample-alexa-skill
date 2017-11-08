@@ -2,6 +2,9 @@
 
 A sample Alexa skill project in the continuous delivery model
 
+[![CircleCI branch](https://img.shields.io/circleci/project/github/ygoto3/sample-alexa-skill/master.svg)]()
+[![Codecov branch](https://img.shields.io/codecov/c/github/ygoto3/sample-alexa-skill/master.svg)]()
+
 ## Requirement
 
 - Node.js v6.10

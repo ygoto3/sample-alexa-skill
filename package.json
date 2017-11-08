@@ -1,8 +1,12 @@
 {
   "name": "sample-alexa-skill",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "engines": {
+    "node": "6.10.0"
+  },
   "main": "lambda/custom/app.js",
-  "repository": {},
+  "repository": "https://github.com/ygoto3/sample-alexa-skill.git",
+  "author": "Yusuke Goto <my.important.apes@gmail.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",

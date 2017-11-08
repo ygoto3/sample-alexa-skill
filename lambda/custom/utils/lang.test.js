@@ -22,6 +22,10 @@ describe('i18n', () => {
     expect(lang('ja-JP').utterances).toEqual([
       '数字の{-|number}を言って',
     ]);
+
+    expect(lang('hoge').utterances).toEqual([
+      'say the number {-|number}',
+    ]);
   });
 });
 

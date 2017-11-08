@@ -11,7 +11,8 @@ describe('SayNumber in ja-JP', () => {
 
   it('responds', () => {
     const res = {
-      say: jest.fn(),
+      say: jest.fn(() => res),
+      reprompt: jest.fn(() => res),
     };
     const expected = new Speech()
       .say('好きな数字を言ってください。')
@@ -21,5 +22,6 @@ describe('SayNumber in ja-JP', () => {
 
     jaJP.respond(res);
     expect(res.say).toHaveBeenCalledWith(expected);
+    expect(res.reprompt).toHaveBeenCalledWith(expected);
   });
 });

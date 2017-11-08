@@ -11,6 +11,16 @@
           ],
           "name": "sample-alexa-skill",
           "description": "Sample Alexa Skill's Full Description"
+        },
+        "ja-JP": {
+          "summary": "Sample Alexa Skill の説明",
+          "examplePhrases": [
+            "アレクサ、Sample Alexa Skill を開いて",
+            "アレクサ、Sample Alexa Skill で数字の1を言って",
+            "アレクサ、Sample Alexa Skill で数字の3を言って"
+          ],
+          "name": "sample-alexa-skill",
+          "description": "Sample Alexa Skill の詳細な説明"
         }
       },
       "isAvailableWorldwide": true,

@@ -1,15 +1,7 @@
-const Speech = require('ssml-builder');
+const lang = require('./launch-request-i18n');
 
 module.exports = function (req, res) {
-  const speech = new Speech();
-  const prompt = new Speech()
-    .say('Tell me to say any number you like.')
-    .pause('500ms')
-    .say('For example, say the number 3.')
-    .ssml(true);
-
-  res
-    .say(prompt)
-    .reprompt(prompt)
+  lang(req.data.request.locale)
+    .respond(res)
     .shouldEndSession(false);
 };

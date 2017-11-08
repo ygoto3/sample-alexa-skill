@@ -1,11 +1,14 @@
+const lang = require('./say-number-i18n.js');
+
 module.exports = [
   'SayNumber',
   {
     slots: { number: 'AMAZON.NUMBER' },
-    utterances: ['say the number {-|number}']
+    utterances: lang().utterances,
   },
   (req, res) => {
     const num = req.slot('number');
-    res.say(`You said ${num}`);
+    lang(req.data.request.locale)
+      .respond(res, num);
   }
 ];

@@ -1,25 +1,18 @@
-# Javascript Node CircleCI 2.0 configuration file #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+      # Use the same Node version as that of AWS Lambda's
+    - image: circleci/node:6.10
+
 version: 2
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      # Use the same Node version as that of AWS Lambda's
-      - image: circleci/node:6.10
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+    <<: *defaults
     steps:
       - checkout
 
-      # Download and cache dependencies
       - restore_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
 
@@ -45,33 +38,62 @@ jobs:
             - lambda/custom/node_modules
           key: v1-dependencies-{{ checksum "lambda/custom/package.json" }}
 
-      # run tests!
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - lambda/custom/node_modules
+
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+
       - run:
           name: Run tests
           command: |
             yarn test
 
-      # codecov
       - run:
           name: Report code coverage
           command: $(yarn bin)/codecov
 
-      # Deploy
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+
       - deploy:
           name: Deploy Skill
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              sudo apt-get -y -qq install python3-pip gettext
-              sudo pip3 install awscli
-              aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-              aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-              aws configure set default.region us-east-1
+            sudo apt-get -y -qq install python3-pip gettext
+            sudo pip3 install awscli
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set default.region us-east-1
 
-              sudo npm i ask-cli -g
-              mkdir -p ~/.ask
-              echo ${ASK_CLI_CONFIG} | base64 -d > ~/.ask/cli_config
+            sudo npm i ask-cli -g
+            mkdir -p ~/.ask
+            echo ${ASK_CLI_CONFIG} | base64 -d > ~/.ask/cli_config
 
-              make deploy 
-            else
-              echo "Nothing to do for deployment"
-            fi
+            make deploy 
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - test 
+          filters:
+            branches:
+              only: master
